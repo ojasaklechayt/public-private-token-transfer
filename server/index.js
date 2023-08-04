@@ -22,13 +22,12 @@ app.post("/send", (req, res) => {
   const { sender, recipient, amount } = req.body;
 
   setInitialBalance(sender);
-  setInitialBalance(recipient);
 
   if (balances[sender] < amount) {
     res.status(400).send({ message: "Not enough funds!" });
   } else {
     balances[sender] -= amount;
-    balances[recipient] += amount;
+    balances[recipient] = (balances[recipient] || 0) + amount;
     res.send({ balance: balances[sender] });
   }
 });
